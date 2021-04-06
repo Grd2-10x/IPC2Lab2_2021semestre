@@ -1,40 +1,25 @@
 import webbrowser
 from tkinter import  *
 from tkinter import filedialog
-
+from datetime import date, time, datetime
 ventana = Tk()
 ventana.title("Principal")
 ventana.geometry("500x300")
 
-charge = Button(ventana, text = "Cargar Archivo")
-charge.grid(row=0,column=0,padx=10, pady=10)
-Oper = Button(ventana, text = "Operaciones")
-Oper.grid(row=0,column=1,padx=10, pady=10)
-Repo = Button(ventana, text = "Reportes")
-Repo.grid(row=0,column=2,padx=10, pady=10)
-Help = Button(ventana, text = "Ayuda")
-Help.grid(row=0,column=3,padx=10, pady=10)
-
-Panel = PanedWindow(ventana, bd=4, relief="raised")
-Panel.grid(row=1,column=1,columnspan=2,  pady=20)
-
-text = Label(Panel, text="Panel", bg = "yellow", pady=20)
-text.pack()
-cuadro = Label(Panel, text="Cuadro", bg = "green", height=10, width=15,padx=20)
-cuadro.pack(side=LEFT)
-res = Label(Panel, text="resultado", bg = "red", height=10, width=15, padx=20)
-res.pack(side=RIGHT)
-
-ventana.mainloop()
-
-root = Tk()
 def fileOpen():
-    root.fileName = filedialog.askopenfilename(filetypes=(("Arch texto", ".txt"), ("Todo", ".")))
-    file = root.fileName
+    ventana.fileName = filedialog.askopenfilename(filetypes=(("Arch texto", ".txt"), ("Todo", ".")))
+    file = ventana.fileName
     return file
 
-Button(root, text = "SELECCIONE ENTRADA",command=fileOpen).pack()
+def datos_est():
+    print("GERARDO JOSE CIFUENTES LUNA")
+    print("201900952")
+    print('Introduccion a la Programacion y Computacion 2 seccion "E" ')
+    print("Ingenieria en Ciencias y Sistemas")
+    print("5to Semestre")
 
+def docu():
+    webbrowser.open_new(r"Docu\EnsayoProyecto2_201900952.pdf")
 def reportweb():
     GG = open("menu.html", "w")
 
@@ -50,18 +35,24 @@ def reportweb():
                   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
                 </head>
                 <body class="bg-primary">
-                <h1 align="center" class="bg-info">RESTAURANTE</h1>
-                <h1 align="center" class="bg-info">UWU</h1>
+                <h1 align="center" class="bg-info">Reporte de Logs</h1>
+                <hr>
                  <div  class="container shadow p-3 mb-5">
-                  <h2 class="text-light">BEBIDAS</h2>
-                   <h3>BEBIDA 1 Q11</h3>
-                   <p>descripcion de bebida</p>
-                  <h2 class="text-light">COMIDAS</h2>
-                   <h3>COMIDA 1 Q21</h3>
-                   <p>descripcion de comida</p>
-                  <h2 class="text-light">POSTRES</h2>
-                   <h3>POSTRE 1 Q18</h3>
-                   <p>descripcion de postre</p>
+                  <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Espacios Llenos</th>
+                    <th>Espacios vacios</th>
+                    <th>Fecha-Hora</th>
+                  </tr>
+                </thead> 
+                <tbody>
+                  <tr> <td>Cargar </td>
+                   <td>n/a </td>
+                   <td>n/a </td>
+                  <td>"""+str(datetime.now())+"""</td></tr>
+                </tbody>
                  </div>
                 </body>
               </html>"""
@@ -72,12 +63,61 @@ def reportweb():
     GG.write("</html>")
     GG.close()
     webbrowser.open_new_tab("menu.html")
-def datos_est():
-    print("GERARDO JOSE CIFUENTES LUNA")
-    print("201900952")
-    print('Introduccion a la Programacion y Computacion 2 seccion "E" ')
-    print("Ingenieria en Ciencias y Sistemas")
-    print("5to Semestre")
 
-def docu():
-    webbrowser.open_new(r"C:\Users\Cifuentes\Desktop\IPC2_Proyecto2_201900952\docu.pdf")
+
+##menu##
+barra=Menu(ventana)
+Charge=Menu(barra)
+Oper=Menu(barra)
+Reprt=Menu(barra)
+Help=Menu(barra)
+##Opciones##
+Charge.add_command(label="Seleccione Archivo", command=fileOpen)
+
+Oper.add_command(label="Rotacion Horizontal")
+Oper.add_command(label="Rotacion Vertical")
+Oper.add_command(label="Transpuesta")
+Oper.add_command(label="Limpiar Zona")
+Oper.add_command(label="Agregar linea Horizontal")
+Oper.add_command(label="Agregar linea Vertical")
+Oper.add_command(label="Agregar Rectangulo")
+Oper.add_command(label="Agregar Triangulo rectangulo")
+Oper.add_separator()
+Oper.add_command(label="UNION")
+Oper.add_command(label="INTERSECCION")
+Oper.add_command(label="DIFERENCIA")
+Oper.add_command(label="DIFERENCIA SIMETRICA")
+
+Reprt.add_command(label="Abrir Reporte", command=reportweb)
+
+Help.add_command(label="Info del Estudiante",command=datos_est)
+Help.add_command(label="Documentacion",command=docu)
+##Agregado al menu##
+barra.add_cascade(label="Cargar Archivo", menu=Charge)
+barra.add_cascade(label="Operaciones", menu=Oper)
+barra.add_cascade(label="Reportes", menu=Reprt)
+barra.add_cascade(label="Ayuda", menu=Help)
+ventana.config(menu=barra)
+##BOTONES##
+
+
+
+Panel = PanedWindow(ventana, bd=4, relief="raised")
+Panel.grid(row=1,column=1,columnspan=2,  pady=20)
+stock=PhotoImage(file="Quemado.png")
+text = Label(Panel, text="Panel", bg = "blue", pady=10)
+text.pack()
+cuadro = Label(Panel, text="Cuadro", bg = "green", padx=20,image=stock)
+cuadro.pack(side=LEFT)
+res = Label(Panel, text="resultado", bg = "black", height=10, width=15, padx=20)
+res.pack(side=RIGHT)
+
+
+
+
+ventana.mainloop()
+
+
+
+
+
